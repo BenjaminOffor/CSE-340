@@ -4,3 +4,88 @@
 *:after {
   box-sizing: border-box;
 }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background: #fdfdfd;
+  color: #111;
+}
+
+header, nav, footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #004080;
+  color: #fff;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero {
+  text-align: center;
+  padding: 1rem;
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+}
+
+.hero-text h2 {
+  color: #004080;
+}
+
+.features {
+  padding: 1rem;
+  background: #e6f2ff;
+}
+
+.cta {
+  padding: 1rem;
+  background: #cce0ff;
+}
+
+@media screen and (min-width: 768px) {
+  nav ul {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .hero img {
+    width: 50%;
+  }
+
+  .hero-text {
+    width: 40%;
+    text-align: left;
+  }
+
+  .features ul {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .features li {
+    flex: 1;
+    margin: 0 1rem;
+  }
+}

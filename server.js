@@ -10,10 +10,23 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 
+/******************
+ * View Engine and Template
+ */
+app.set("view engine", "ejs")
+app.use(expresslayout)
+app.set("layout", "layout/layout")
 /* ***********************
  * Routes
  *************************/
 app.use(static)
+
+/**route to the index page of the application
+ * app.get is used to get the request from the client and then send the response back by rendering the index.ejs file.
+*/
+app.get('/', (req,res)=> {
+  res.render('index', {title: "Home"})
+})
 
 /* ***********************
  * Local Server Information
