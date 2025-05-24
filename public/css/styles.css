@@ -23,6 +23,19 @@ body {
   background-position: center top;
    margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.container{
+  background-color: white;
+  max-width: 50rem;
+  width: 100%;
+  align-items: center;
+  border: 5px solid blue;
+  border-radius: 10px;
 }
 
 
