@@ -10,5 +10,14 @@ router.use("/images", express.static(__dirname + "public/images"));
 
 module.exports = router;
 
+router.get("/trigger-error", (req, res, next) => {
+  try {
+    throw new Error("Intentional server error")
+  } catch (err) {
+    next(err)
+  }
+})
+
+
 
 
