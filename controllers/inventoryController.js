@@ -8,7 +8,7 @@ const buildByInvId = async function (req, res, next) {
 
     if (!vehicleData) {
       return res.status(404).render("errors/error", {
-        message: "Vehicle not found"
+        message: "Vehicle not found",
       });
     }
 
