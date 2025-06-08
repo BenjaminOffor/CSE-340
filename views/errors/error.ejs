@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .error-container {
+      max-width: 800px;
+      margin: 5rem auto;
+      padding: 2rem;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .error-code {
+      font-size: 6rem;
+      font-weight: bold;
+      color: #cc0000;
+    }
+    .error-message {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+    .error-hint {
+      font-size: 1rem;
+      color: #666;
+    }
+    @media (max-width: 600px) {
+      .error-code {
+        font-size: 4rem;
+      }
+      .error-message {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main class="error-container" role="main" aria-labelledby="error-title">
+    <div class="error-code" id="error-title">500</div>
+    <div class="error-message"><%= message %></div>
+    <p class="error-hint">Sorry, something went wrong on our end.<br>Please try again later or return to the <a href="/">home page</a>.</p>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
