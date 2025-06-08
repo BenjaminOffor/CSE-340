@@ -1,27 +1,28 @@
-const inventoryModel = require("../models/inventoryModel");
-const utilities = require("../utilities/"); // assuming index.js
-const buildVehicleDetail = utilities.buildVehicleDetail;
+const invModel = require("../models/inventory-model");
+const utilities = require("../utilities");
 
-async function buildByInventoryId(req, res, next) {
+const buildByInvId = async function (req, res, next) {
   try {
-    const invId = req.params.invId;
-    const vehicle = await inventoryModel.getVehicleById(invId);
-    
-    if (!vehicle) {
-      return res.status(404).render("error", { message: "Vehicle not found" });
+    const invId = parseInt(req.params.inv_id);
+    const vehicleData = await invModel.getInventoryById(invId);
+
+    if (!vehicleData) {
+      return res.status(404).render("errors/error", {
+        message: "Vehicle not found"
+      });
     }
 
-    const detailView = buildVehicleDetail(vehicle);
+    const vehicleContent = utilities.buildVehicleDetail(vehicleData);
 
     res.render("inventory/detail", {
-      title: `${vehicle.inv_make} ${vehicle.inv_model}`,
-      detailView,
+      title: `${vehicleData.inv_make} ${vehicleData.inv_model}`,
+      vehicleContent,
     });
   } catch (error) {
-    next(error); // Pass errors to middleware
+    next(error);
   }
-}
+};
 
 module.exports = {
-  buildByInventoryId,
+  buildByInvId,
 };
