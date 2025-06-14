@@ -1,0 +1,7 @@
+<h1><%= title %></h1>
+
+<% if (grid && grid.length > 0) { %>
+  <%- grid %>
+<% } else { %>
+  <p class="notice">Sorry, no matching vehicles were found.</p>
+<% } %>

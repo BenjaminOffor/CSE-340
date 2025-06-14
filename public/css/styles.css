@@ -78,23 +78,38 @@ header {
 /* NAVIGATION */
 nav ul {
   margin: 0;
-  padding: 10px;
+  padding: 0;
   list-style-type: none;
   background-color: var(--primary-color);
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /* Center items horizontally */
+  border-bottom: 2px solid #ccc;
 }
+
 nav li {
-  display: block;
+  display: inline-block;
+  margin: 0;
 }
+
 nav a {
+  display: block;
+  padding: 14px 20px;
   text-decoration: none;
   color: var(--accent1-color);
   background-color: var(--primary-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 nav a:hover {
   color: var(--primary-color);
   background-color: var(--accent1-color);
+}
+
+/* Optional: Active Tab Style */
+nav a.active {
+  background-color: var(--accent1-color);
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 /* HERO */

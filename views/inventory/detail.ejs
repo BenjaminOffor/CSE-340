@@ -1,9 +1,7 @@
-<%- include('../partials/head') %>
-<%- include('../partials/header') %>
-<%- include('../partials/nav') %>
+<h1><%= title %></h1>
 
-<main>
-  <%- detailView %> <!-- this is the HTML passed from the controller -->
-</main>
-
-<%- include('../partials/footer') %>
+<% if (vehicleContent) { %>
+  <%- vehicleContent %>
+<% } else { %>
+  <p class="notice">Vehicle details are currently unavailable.</p>
+<% } %>

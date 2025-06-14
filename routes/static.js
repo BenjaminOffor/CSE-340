@@ -1,23 +1,22 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 
-// Static Routes
-// Set up "public" folder / subfolders for static files
-router.use(express.static("public"));
-router.use("/css", express.static(__dirname + "public/css"));
-router.use("/js", express.static(__dirname + "public/js"));
-router.use("/images", express.static(__dirname + "public/images"));
+// Serve static files properly
+const publicPath = path.join(__dirname, "../public"); // correct relative path
 
-module.exports = router;
+router.use(express.static(publicPath)); // Main static folder
+router.use("/css", express.static(path.join(publicPath, "css")));
+router.use("/js", express.static(path.join(publicPath, "js")));
+router.use("/images", express.static(path.join(publicPath, "images")));
 
+// Optional: Route to test error handling
 router.get("/trigger-error", (req, res, next) => {
   try {
-    throw new Error("Intentional server error")
+    throw new Error("Intentional server error");
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-
-
-
+module.exports = router;

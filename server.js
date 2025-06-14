@@ -19,7 +19,7 @@ const app = express();
  */
 app.set("view engine", "ejs");
 app.use(expresslayout);
-app.set("layout", "layout/layout");
+app.set("layout", "layouts/layout");
 
 /* ***********************
  * Static Middleware
@@ -48,7 +48,7 @@ app.use("/inv", inventoryRoute);
  * Local Server Information
  * Values from .env (environment) file
  *************************/
-const port = process.env.PORT || 3000;   // Added default port fallback
+const port = 3000; // Added default port fallback
 const host = process.env.HOST || "localhost";
 
 /* ***********************
