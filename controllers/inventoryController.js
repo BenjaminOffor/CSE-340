@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
+const { validationResult } = require("express-validator");
 
 /* ===============================
    View Vehicles by Classification
@@ -9,14 +10,9 @@ const buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id);
   const grid = await utilities.buildClassificationGrid(data);
 
-  let className;
-  if (data.length > 0) {
-    className = data[0].classification_name;
-  } else {
-    className = "No Vehicles Found";
-  }
-
+  const className = data.length > 0 ? data[0].classification_name : "No Vehicles Found";
   const nav = await utilities.getNav();
+
   res.render("./inventory/classification", {
     title: className + " vehicles",
     nav,
@@ -51,6 +47,7 @@ const buildAddClassification = async function (req, res) {
     title: "Add Classification",
     nav,
     errors: null,
+    message: null,
   });
 };
 
@@ -59,17 +56,29 @@ const buildAddClassification = async function (req, res) {
 ================================== */
 const addClassification = async function (req, res) {
   const { classification_name } = req.body;
+  const nav = await utilities.getNav();
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: errors.array(),
+      message: null,
+    });
+  }
 
   try {
     await invModel.addClassification(classification_name);
+    req.flash("notice", `${classification_name} classification added successfully.`);
     res.redirect("/inv");
   } catch (error) {
     console.error("Classification insert failed:", error);
-    const nav = await utilities.getNav();
     res.render("inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors: [{ msg: "Classification insert failed. Try again." }],
+      message: null,
     });
   }
 };
@@ -79,14 +88,15 @@ const addClassification = async function (req, res) {
 ================================== */
 const buildAddInventory = async function (req, res) {
   try {
-    const data = await invModel.getClassifications();
+    const classificationData = await invModel.getClassifications();
     const nav = await utilities.getNav();
 
     res.render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
-      classifications: data.rows,
+      classifications: classificationData.rows || [],
       errors: null,
+      message: null,
     });
   } catch (error) {
     console.error("Error loading classifications:", error);
@@ -97,6 +107,7 @@ const buildAddInventory = async function (req, res) {
       nav,
       classifications: [],
       errors: [{ msg: "Failed to load classifications." }],
+      message: null,
     });
   }
 };
@@ -108,33 +119,56 @@ const addInventory = async function (req, res) {
   const {
     inv_make,
     inv_model,
+    inv_year,
     inv_description,
     inv_image,
     inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
     classification_id,
   } = req.body;
 
+  const nav = await utilities.getNav();
+  const classificationData = await invModel.getClassifications();
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      classifications: classificationData.rows || [],
+      errors: errors.array(),
+      message: null,
+      ...req.body, // prefill form with user input
+    });
+  }
+
   try {
-    await invModel.addInventoryItem({
+    await invModel.addInventory({
       inv_make,
       inv_model,
+      inv_year,
       inv_description,
       inv_image,
       inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
       classification_id,
     });
 
+    req.flash("notice", `${inv_make} ${inv_model} added successfully.`);
     res.redirect("/inv");
   } catch (error) {
     console.error("Inventory insert failed:", error);
-    const data = await invModel.getClassifications();
-    const nav = await utilities.getNav();
-
     res.render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
-      classifications: data.rows,
+      classifications: classificationData.rows || [],
       errors: [{ msg: "Inventory insert failed. Try again." }],
+      message: null,
+      ...req.body,
     });
   }
 };
