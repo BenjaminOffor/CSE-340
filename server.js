@@ -13,14 +13,14 @@ dotenv.config(); // Load .env variables early
 const app = express();
 
 /* ========================
- * Middleware
+ * Middleware - Body Parsing
  ==========================*/
-// Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
-// Parse JSON
 app.use(express.json());
 
-// Static files
+/* ========================
+ * Static Files
+ ==========================*/
 app.use(express.static(path.join(__dirname, "public")));
 
 /* ========================
@@ -31,12 +31,27 @@ app.use(expresslayout);
 app.set("layout", "layouts/layout"); // default layout
 
 /* ========================
+ * Dynamic Navigation Middleware
+ ==========================*/
+const getNav = require("./utilities/navigation");
+app.use(async (req, res, next) => {
+  try {
+    res.locals.nav = await getNav();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+/* ========================
  * Route Files
  ==========================*/
 const inventoryRoute = require("./routes/inventoryRoute");
 const errorRoute = require("./routes/errorRoute");
 
-// Main routes
+/* ========================
+ * Routes
+ ==========================*/
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });
 });
@@ -71,5 +86,5 @@ const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
 
 app.listen(port, () => {
-  console.log(`Server running on http://${host}:${port}`);
+  console.log(`✅ Server running at: http://${host}:${port}`);
 });
