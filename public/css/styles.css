@@ -21,15 +21,14 @@ body {
   background-size: 465px 450px;
   background-repeat: repeat;
   background-position: center top;
-   margin: 0;
+  margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-.container{
+.container {
   background-color: white;
   max-width: 50rem;
   width: 100%;
@@ -38,20 +37,17 @@ body {
   border-radius: 10px;
 }
 
-
 /* Default Styles */
 #wrapper {
   margin: 2rem auto;
   padding: 2rem;
   max-width: 900px;
   min-height: 200px;
-  background-color: var(--subtle-color); /* solid background to hide checkerboard */
-  border: 10px solid transparent; /* adds space around edges */
-  box-shadow: 0 0 0 5px var(--primary-color); /* optional: emphasize frame */
+  background-color: var(--subtle-color);
+  border: 10px solid transparent;
+  box-shadow: 0 0 0 5px var(--primary-color);
   border-radius: 12px;
 }
-
-
 
 /* HEADER */
 header {
@@ -82,15 +78,13 @@ nav ul {
   list-style-type: none;
   background-color: var(--primary-color);
   display: flex;
-  justify-content: center; /* Center items horizontally */
+  justify-content: center;
   border-bottom: 2px solid #ccc;
 }
-
 nav li {
   display: inline-block;
   margin: 0;
 }
-
 nav a {
   display: block;
   padding: 14px 20px;
@@ -99,13 +93,10 @@ nav a {
   background-color: var(--primary-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
 nav a:hover {
   color: var(--primary-color);
   background-color: var(--accent1-color);
 }
-
-/* Optional: Active Tab Style */
 nav a.active {
   background-color: var(--accent1-color);
   color: var(--primary-color);
@@ -202,7 +193,7 @@ nav a.active {
   padding: 0.5rem 0;
 }
 
-/* INVENTORY */
+/* INVENTORY GRID */
 #inv-display {
   list-style-type: none;
   display: grid;
@@ -255,7 +246,6 @@ nav a.active {
 @media (min-width: 851px) {
   body {
     font-size: unset;
-    background-image: url("/images/site/checkerboard.jpg");
   }
 
   #wrapper {
@@ -291,6 +281,7 @@ nav a.active {
     width: 190px;
   }
 
+  /* Note: .vehicle class here is generic—remove if not used */
   .vehicle {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -300,7 +291,6 @@ nav a.active {
     padding: 0 0.5rem;
   }
 
-  /* Converted Nested Header/Navigation Enhancements */
   header {
     display: flex;
     justify-content: space-between;
@@ -320,35 +310,38 @@ nav a.active {
   }
 
   nav ul a {
-    text-decoration: none;
-    color: var(--accent1-color);
-    background-color: var(--primary-color);
     padding: 8px 16px;
-    transition: background-color 0.3s ease;
   }
 
   nav ul a:hover {
     background-color: var(--accent1-color);
     color: var(--primary-color);
   }
+}
 
-  .heromessages {
-    position: absolute;
-    top: 10%;
-    left: 5%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: var(--accent1-color);
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .heromessages h2 {
-    margin-top: 0;
-    font-size: 2.5rem;
-  }
-
-  .heromessages p {
-    font-size: 1.2rem;
-    margin-bottom: 0;
+/* ======================================
+   Responsive Vehicle Detail (mobile‑first)
+   ====================================== */
+.vehicle-detail {
+  display: grid;
+  grid-template-columns: 1fr; /* stack on mobile */
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.vehicle-detail img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+/* Tablet+ two‑column */
+@media (min-width: 768px) {
+  .vehicle-detail {
+    grid-template-columns: 1fr 1fr;
   }
 }

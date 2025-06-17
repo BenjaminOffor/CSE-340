@@ -11,7 +11,7 @@ async function getNav() {
     let nav = '<ul class="navigation">';
     nav += '<li><a href="/" title="Home page">Home</a></li>';
 
-    data.rows.forEach((row) => {
+    data.forEach((row) => {
       nav += `<li><a href="/inv/type/${row.classification_id}" title="View our ${row.classification_name} vehicles">${row.classification_name}</a></li>`;
     });
 

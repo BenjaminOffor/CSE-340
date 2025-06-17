@@ -1,4 +1,4 @@
-/* ========== Responsive (larger screens) ========== */
+/* ========== Global small-screen tweaks ========== */
 @media screen and (max-width: 768px) {
   .container {
     display: flex;
@@ -12,20 +12,42 @@
     font-size: 1.1rem;
   }
 
+  /* Remove any generic row layout — let .vehicle-detail handle itself */
   main {
-    display: flex;
+    display: block;
+    gap: unset;
+    flex-direction: unset;
+    justify-content: unset;
+  }
+}
+
+/* ======================================
+   Vehicle Detail overrides (≤768px)
+   ====================================== */
+@media screen and (max-width: 768px) {
+  .vehicle-detail {
+    display: grid;
+    grid-template-columns: 1fr; /* single column */
     gap: 1rem;
-    flex-direction: row;
-    justify-content: space-between;
+    padding: 1rem 0;
   }
 
-  .text-content {
-    flex: 1;
-  }
-
-  .banner {
-    flex: 1;
-    max-height: 250px;
+  .vehicle-detail img {
+    width: 100%;
+    height: auto;
     object-fit: cover;
+  }
+
+  .vehicle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* Tablet+ two‑column (redundant here but safe) */
+@media screen and (min-width: 769px) {
+  .vehicle-detail {
+    grid-template-columns: 1fr 1fr; /* two columns */
   }
 }

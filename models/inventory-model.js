@@ -36,11 +36,12 @@ async function getClassifications() {
   try {
     const sql = "SELECT * FROM classification ORDER BY classification_name";
     const result = await pool.query(sql);
-    return result;
+    return result.rows; // ✅ return only the rows array
   } catch (error) {
     throw new Error("Failed to get classifications");
   }
 }
+
 
 async function addClassification(classification_name) {
   try {
@@ -78,6 +79,7 @@ async function addInventoryItem({
     throw new Error("Failed to add inventory item");
   }
 }
+
 
 module.exports = {
   getInventoryById,
