@@ -35,7 +35,7 @@ async function getInventoryByClassificationId(classification_id) {
 async function getClassifications() {
     const sql = "SELECT * FROM classification ORDER BY classification_name";
     const result = await pool.query(sql);
-    return result.rows; // ✅ return only the rows array
+    return result.rows; // ✅ return only tthe rows array
   } 
   
 
