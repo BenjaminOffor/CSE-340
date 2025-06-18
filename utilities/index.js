@@ -1,11 +1,14 @@
 const getNav = require("./navigation"); // Adjust the path if necessary
 
-function buildVehicleDetail(vehicle) {
-  const formattedPrice = new Intl.NumberFormat("en-US", {
+function formatPrice(amount) {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
-  }).format(vehicle.inv_price);
+  }).format(amount);
+}
 
+function buildVehicleDetail(vehicle) {
+  const formattedPrice = formatPrice(vehicle.inv_price);
   const formattedMiles = new Intl.NumberFormat("en-US").format(vehicle.inv_miles);
 
   return `
@@ -25,6 +28,7 @@ function buildVehicleDetail(vehicle) {
 function buildClassificationGrid(data) {
   let grid = '<ul id="inv-display">';
   data.forEach(vehicle => {
+    const formattedPrice = formatPrice(vehicle.inv_price);
     grid += `
       <li>
         <a href="/inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
@@ -37,7 +41,7 @@ function buildClassificationGrid(data) {
               ${vehicle.inv_make} ${vehicle.inv_model}
             </a>
           </h2>
-          <span>$${new Intl.NumberFormat().format(vehicle.inv_price)}</span>
+          <span>${formattedPrice}</span>
         </div>
       </li>`;
   });
