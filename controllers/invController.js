@@ -18,6 +18,12 @@ const buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId;
   let data = await invModel.getInventoryByClassificationId(classification_id);
 
+  // 🚨 Redirect if no vehicles found
+  if (!data || data.length === 0) {
+    req.flash("notice", "No vehicles found for that classification.");
+    return res.redirect("/");
+  }
+
   // ✅ Sanitize image paths
   data = data.map(vehicle => {
     vehicle.inv_image = sanitizeImagePath(vehicle.inv_image);
@@ -25,11 +31,11 @@ const buildByClassificationId = async function (req, res, next) {
   });
 
   const grid = await utilities.buildClassificationGrid(data);
-  const className = data.length > 0 ? data[0].classification_name : "No Vehicles Found";
+  const className = data[0].classification_name;
   const nav = await utilities.getNav();
 
   res.render("./inventory/classification", {
-    title: className + " vehicles",
+    title: `${className} vehicles`,
     nav,
     grid,
   });
@@ -41,10 +47,15 @@ const buildByClassificationId = async function (req, res, next) {
 const buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId;
   const data = await invModel.getInventoryById(inv_id);
-  const detail = await utilities.buildDetailView(data);
 
+  if (!data) {
+    req.flash("notice", "Vehicle not found.");
+    return res.redirect("/");
+  }
+
+  const detail = await utilities.buildDetailView(data);
   const nav = await utilities.getNav();
-  const pageTitle = data ? `${data.inv_make} ${data.inv_model}` : "Vehicle Not Found";
+  const pageTitle = `${data.inv_make} ${data.inv_model}`;
 
   res.render("./inventory/detail", {
     title: pageTitle,

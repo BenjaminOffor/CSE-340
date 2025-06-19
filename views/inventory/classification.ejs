@@ -1,12 +1,13 @@
-<!-- Section: Content Heading -->
 <% if (title) { %>
   <h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
+<% } else { %>
+  <h1>Classification</h1>
+<% } %>
 
-<!-- Section: Flash Message Display -->
-<%# messages() %>
+<!-- Optional: Display flash messages if any -->
+<% if (typeof messages === 'function') { %>
+  <%= messages() %>
+<% } %>
 
-<!-- Section: Inventory Grid Display -->
+<!-- Display vehicle grid -->
 <%- grid %>
