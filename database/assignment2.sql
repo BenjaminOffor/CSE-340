@@ -96,3 +96,11 @@ WHERE inv_image LIKE '%/images/vehicles/vehicles/%';
 SELECT inv_make, inv_model, inv_image
 FROM inventory;
 
+SELECT inv_make, inv_model, inv_thumbnail FROM inventory;
+
+UPDATE inventory
+SET inv_image = REPLACE(inv_image, '.jpg', '-tn.jpg')
+WHERE inv_model IN ('911', 'Land Cruiser', 'F-150');
+
+
+
