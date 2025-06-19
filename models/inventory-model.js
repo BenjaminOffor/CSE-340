@@ -77,11 +77,32 @@ async function addInventoryItem({
   }
 }
 
+async function getFeaturedVehicles() {
+  try {
+    const sql = `
+      SELECT inv_id, inv_make, inv_model, inv_price, inv_image
+      FROM inventory
+      ORDER BY inv_price DESC
+      LIMIT 4;
+    `;
+    const result = await pool.query(sql);
+    
+    // Prefix image paths if missing slashes
+    return result.rows.map(vehicle => ({
+      ...vehicle,
+      inv_image: vehicle.inv_image.startsWith("/") ? vehicle.inv_image : "/" + vehicle.inv_image
+    }));
+  } catch (error) {
+    throw new Error("Failed to fetch featured vehicles");
+  }
+}
+
 
 module.exports = {
   getInventoryById,
   getInventoryByClassificationId,
   getClassifications,
   addClassification,
-  addInventoryItem
+  addInventoryItem,
+  getFeaturedVehicles,
 };

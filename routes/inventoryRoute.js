@@ -44,4 +44,13 @@ router.post(
   invController.addInventory
 );
 
+/* ================================================
+ * Route: Get Featured Vehicles (used by featured.js)
+ * ================================================ */
+router.get("/featured", invController.getFeatured);
+
+// API endpoint for featured vehicles
+router.get("/featured", invController.getFeatured);
+
+
 module.exports = router;

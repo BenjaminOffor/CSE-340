@@ -75,3 +75,9 @@ WHERE inv_make = 'GM' AND inv_model = 'Hummer';
 UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+
+UPDATE inventory
+SET inv_thumbnail = REPLACE(inv_thumbnail, 'vehicles/vehicles/', 'vehicles/')
+WHERE inv_thumbnail LIKE '%vehicles/vehicles/%';
+
+

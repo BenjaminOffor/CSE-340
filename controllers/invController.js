@@ -3,13 +3,28 @@ const utilities = require("../utilities");
 const { validationResult } = require("express-validator");
 
 /* ===============================
+   Helper: Sanitize Image Paths
+================================== */
+function sanitizeImagePath(path) {
+  if (!path) return '';
+  path = path.replace(/(\/?vehicles\/)+/, 'vehicles/');
+  return path.startsWith('/') ? path : '/' + path;
+}
+
+/* ===============================
    View Vehicles by Classification
 ================================== */
 const buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId;
-  const data = await invModel.getInventoryByClassificationId(classification_id);
-  const grid = await utilities.buildClassificationGrid(data);
+  let data = await invModel.getInventoryByClassificationId(classification_id);
 
+  // ✅ Sanitize image paths
+  data = data.map(vehicle => {
+    vehicle.inv_image = sanitizeImagePath(vehicle.inv_image);
+    return vehicle;
+  });
+
+  const grid = await utilities.buildClassificationGrid(data);
   const className = data.length > 0 ? data[0].classification_name : "No Vehicles Found";
   const nav = await utilities.getNav();
 
@@ -140,7 +155,7 @@ const addInventory = async function (req, res) {
       classifications: classificationData.rows || [],
       errors: errors.array(),
       message: null,
-      ...req.body, // prefill form with user input
+      ...req.body,
     });
   }
 
@@ -174,6 +189,26 @@ const addInventory = async function (req, res) {
 };
 
 /* ===============================
+   GET: Featured Vehicles (API)
+================================== */
+const getFeatured = async function (req, res) {
+  try {
+    let featured = await invModel.getFeaturedVehicles();
+
+    // ✅ Sanitize image paths
+    featured = featured.map(vehicle => {
+      vehicle.inv_image = sanitizeImagePath(vehicle.inv_image);
+      return vehicle;
+    });
+
+    res.json(featured);
+  } catch (error) {
+    console.error("Error fetching featured vehicles:", error);
+    res.status(500).json({ error: "Failed to load featured vehicles." });
+  }
+};
+
+/* ===============================
    EXPORTS
 ================================== */
 module.exports = {
@@ -183,4 +218,5 @@ module.exports = {
   addClassification,
   buildAddInventory,
   addInventory,
+  getFeatured,
 };
