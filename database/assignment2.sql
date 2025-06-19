@@ -81,3 +81,18 @@ SET inv_thumbnail = REPLACE(inv_thumbnail, 'vehicles/vehicles/', 'vehicles/')
 WHERE inv_thumbnail LIKE '%vehicles/vehicles/%';
 
 
+SELECT inv_id, inv_make, inv_model, inv_thumbnail FROM public.inventory;
+
+SELECT inv_make, inv_model, inv_thumbnail
+FROM inventory;
+
+SELECT inv_make, inv_model, inv_image
+FROM inventory;
+
+UPDATE inventory
+SET inv_image = REPLACE(inv_image, '/images/vehicles/vehicles/', '/images/vehicles/')
+WHERE inv_image LIKE '%/images/vehicles/vehicles/%';
+
+SELECT inv_make, inv_model, inv_image
+FROM inventory;
+
